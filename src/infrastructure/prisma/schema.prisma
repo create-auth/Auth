@@ -12,3 +12,20 @@ model Product {
   name  String
   price Int
 }
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+}
+
+model User {
+  id           String  @id @default(uuid())
+  providerId   String? @unique
+  name         String
+  email        String  @unique
+  password     String?
+  refreshToken String?
+  provider     AuthProvider @default(EMAIL)
+  vrefied      Boolean     @default(false)
+  code         String?
+}

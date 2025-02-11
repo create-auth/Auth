@@ -1,10 +1,12 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
+import auth from './Auth';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 import product from './product';
+import AuthToken from './Auth/Authorization';
 
 function main() {
   const app = express();
@@ -12,6 +14,7 @@ function main() {
 
   app.use(cors());
   app.use(express.json());
+  app.use(cookieParser());
 
   app.get('/', (req, res) => {
     return res.json({
@@ -21,13 +24,11 @@ function main() {
 
   const apiRouter = express.Router();
 
-  apiRouter.use('/products', product);
-
+  apiRouter.use('/products', AuthToken, product);
+  apiRouter.use('/auth', auth);
   app.use('/api/v1', apiRouter);
 
-  // @ts-ignore
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  app.use((err, req, res, _next) => {
+  app.use((err: any, req: Request, res:Response, _next: NextFunction) => {
     res.status(err.status).json({ message: err.message });
   });
 
