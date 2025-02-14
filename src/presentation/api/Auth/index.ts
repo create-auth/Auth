@@ -2,7 +2,6 @@ import express from 'express';
 import UserAuthentication from './Authentication';
 import UserUsecase from '../../../application/UserUsecase';
 import UserRepository from '../../../infrastructure/prisma/prismaRepositories/PrismaUserRepository';
-import JWTService from './JWTService/JWTService';
 import dotenv from 'dotenv';
 dotenv.config();
 const router = express.Router();

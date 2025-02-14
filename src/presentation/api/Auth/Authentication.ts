@@ -1,8 +1,7 @@
 import UserUseCase from '../../../application/UserUsecase';
 import { NextFunction, Request, Response } from 'express';
 import APIError from '../../../application/Errors/APIError';
-
-import JWTService from './JWTService/JWTService';
+import JWTUsecase from '../../../application/JWTUsecase';
 class UserAuthentication {
   constructor(private readonly userUseCase: UserUseCase) { }
 
@@ -10,9 +9,9 @@ class UserAuthentication {
     try {
       const user = req.body;
       const newUser = await this.userUseCase.createUser(user);
-      const { accessToken, refreshToken } = JWTService.generateTokens(newUser.id);
+      const { accessToken, refreshToken } = JWTUsecase.generateTokens(newUser.id);
       this.userUseCase.saveRefreshToken(newUser.id, refreshToken);
-      JWTService.setTokenCookies(res, accessToken, refreshToken);
+      JWTUsecase.setTokenCookies(res, accessToken, refreshToken);
       res.status(201).json({ user: newUser, accessToken });
     } catch (error: any) {
       next(error);
@@ -22,9 +21,9 @@ class UserAuthentication {
   loginUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await this.userUseCase.loginUser(req.body);
-      const { accessToken, refreshToken } = JWTService.generateTokens(user.id);
+      const { accessToken, refreshToken } = JWTUsecase.generateTokens(user.id);
       this.userUseCase.saveRefreshToken(user.id, refreshToken);
-      JWTService.setTokenCookies(res, accessToken, refreshToken);
+      JWTUsecase.setTokenCookies(res, accessToken, refreshToken);
       res.status(200).json({ user, accessToken });
     } catch (error: any) {
       next(error);
@@ -34,7 +33,7 @@ class UserAuthentication {
     try {
       const cookies = req.cookies
       const { accessToken, refreshToken } = await this.userUseCase.generateNewAccessToken(cookies);
-      JWTService.setTokenCookies(res, accessToken, refreshToken);
+      JWTUsecase.setTokenCookies(res, accessToken, refreshToken);
       res.status(200).json({ accessToken });
     } catch (error: any) {
       next(error);

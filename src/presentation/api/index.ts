@@ -2,11 +2,13 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import auth from './Auth';
+import verify from './Verify';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 
 import product from './product';
 import AuthToken from './Auth/Authorization';
+
 
 function main() {
   const app = express();
@@ -25,7 +27,9 @@ function main() {
   const apiRouter = express.Router();
 
   apiRouter.use('/products', AuthToken, product);
+  apiRouter.use('/verify', verify);
   apiRouter.use('/auth', auth);
+  
   app.use('/api/v1', apiRouter);
 
   app.use((err: any, req: Request, res:Response, _next: NextFunction) => {
