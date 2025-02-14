@@ -26,6 +26,6 @@ model User {
   password     String?
   refreshToken String?
   provider     AuthProvider @default(EMAIL)
-  active      Boolean     @default(false)
+  verified      Boolean     @default(false)
   code         String?
 }

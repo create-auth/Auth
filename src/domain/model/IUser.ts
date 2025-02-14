@@ -7,7 +7,7 @@ interface IUser {
   password: string | null;
   refreshToken: string | null;
   provider: AuthProvider;
-  active: Boolean;
+  verified: Boolean;
   code: string | null;
 }
 

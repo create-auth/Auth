@@ -106,6 +106,13 @@ class UserUseCase {
 
     await this.userRepository.deleteRefreshToken(decoded.id);
   }
+  async verifyEmail(email: string): Promise<IUser |void> {
+    if (!email) throw new APIError('Email is required.', 400);
+    if (!validator.isEmail(email)) throw new APIError('This is not an email.', 400);
+    const user = await this.userRepository.verifyEmail(email);
+    if (!user) throw new APIError('User not found', 404);
+    return user;
+  }
 }
 
 export default UserUseCase;

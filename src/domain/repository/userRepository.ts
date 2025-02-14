@@ -1,3 +1,5 @@
+import IUser from "../model/IUser";
+
 interface IUserRepository {
   create(data: any): Promise<any>;
   get(id: string): Promise<any>;
@@ -7,6 +9,7 @@ interface IUserRepository {
   getrefreshToken(userId: string, refreshToken: string): Promise<any>;
   deleteRefreshToken(userId: string): Promise<void>;
   saveRefreshToken(userId: string, refreshToken: string): Promise<void>;
+  verifyEmail(email: string): Promise<IUser | void>;
 }
 
 export default IUserRepository;

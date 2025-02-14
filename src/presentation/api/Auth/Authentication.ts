@@ -9,10 +9,10 @@ class UserAuthentication {
     try {
       const user = req.body;
       const newUser = await this.userUseCase.createUser(user);
-      const { accessToken, refreshToken } = JWTUsecase.generateTokens(newUser.id);
-      this.userUseCase.saveRefreshToken(newUser.id, refreshToken);
-      JWTUsecase.setTokenCookies(res, accessToken, refreshToken);
-      res.status(201).json({ user: newUser, accessToken });
+      // const { accessToken, refreshToken } = JWTUsecase.generateTokens(newUser.id);
+      // this.userUseCase.saveRefreshToken(newUser.id, refreshToken);
+      // JWTUsecase.setTokenCookies(res, accessToken, refreshToken);
+      res.status(201).json({ user: newUser });
     } catch (error: any) {
       next(error);
     }
@@ -29,6 +29,7 @@ class UserAuthentication {
       next(error);
     }
   };
+
   generateNewAccessToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const cookies = req.cookies
@@ -39,6 +40,7 @@ class UserAuthentication {
       next(error);
     }
   }
+
   logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const refreshToken = req.cookies['refreshToken'];

@@ -41,6 +41,12 @@ class PrismaUserRepository implements IUserRepository {
   async deleteRefreshToken(userId: string): Promise<void> {
     await prisma.user.update({ where: { id: userId }, data: { refreshToken: null } });
   }
+  async verifyEmail(email: string): Promise<IUser | void> {
+    await prisma.user.update({ where: { email }, data: { verified: true } });
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) return;
+    return user;
+  }
   /*   async list(): Promise<IUser[]> {
       const user = await prisma.user.findMany();
       return user;

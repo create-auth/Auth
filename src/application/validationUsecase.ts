@@ -80,8 +80,8 @@ class ValidationUseCase {
     }
   }
 
-  static async verifyCode(email: string, code: string): Promise<boolean> {
-    const redis = await this.getRedisConnection();
+  async verifyCode(email: string, code: string): Promise<boolean> {
+    const redis = await ValidationUseCase.getRedisConnection();
 
     try {
       // Get all keys matching the email pattern
@@ -104,7 +104,7 @@ class ValidationUseCase {
 
         // Check attempts
         const attempts = session.attempts || 0;
-        if (attempts >= this.MAX_ATTEMPTS) {
+        if (attempts >= ValidationUseCase.MAX_ATTEMPTS) {
           await redis.del(key);
           throw new APIError('Too many failed attempts. Please request a new code.', 401);
         }
@@ -118,7 +118,7 @@ class ValidationUseCase {
             300, // 5 minutes
             JSON.stringify(session)
           );
-          throw new APIError(`Invalid code. ${this.MAX_ATTEMPTS - session.attempts} attempts remaining.`, 401);
+          throw new APIError(`Invalid code. ${ValidationUseCase.MAX_ATTEMPTS - session.attempts} attempts remaining.`, 401);
         }
 
         // Code is correct - clean up the session
