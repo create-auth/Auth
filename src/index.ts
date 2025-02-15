@@ -1,4 +1,4 @@
-import main from './presentation/api';
+import main from './presentation';
 
 main();
 

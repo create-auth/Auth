@@ -4,7 +4,6 @@ import APIError from './Errors/APIError';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
-import e from 'express';
 class UserUseCase {
   constructor(private readonly userRepository: UserRepository) { }
 
@@ -27,13 +26,13 @@ class UserUseCase {
 
   async loginUser(user: IUser) {
     const { email, password } = user;
-
     if (!email && !password) throw new APIError('All fields required.', 400);
     if (!email) throw new APIError('Email is required.', 400);
     if (!password) throw new APIError('Password is required.', 400);
     if (!validator.isEmail(email)) throw new APIError('This is not an email.', 400);
     const isUserExist = await this.userRepository.getByEmail(email);
     if (!isUserExist) throw new APIError('This email is not exist.', 400);
+    if (!isUserExist.verified) throw new APIError('Email is not verified', 403);
     if (!isUserExist.password) throw new APIError('Invalid password', 401);
     const isPasswordValid = await bcrypt.compare(password, isUserExist.password);
     if (!isPasswordValid) throw new APIError('Invalid password', 401);

@@ -47,6 +47,7 @@ class PrismaUserRepository implements IUserRepository {
     if (!user) return;
     return user;
   }
+
   /*   async list(): Promise<IUser[]> {
       const user = await prisma.user.findMany();
       return user;

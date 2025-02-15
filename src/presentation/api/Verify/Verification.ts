@@ -8,7 +8,8 @@ class VerificationController {
     sendCode = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { email } = req.body;
-
+            const IsEmailVerified = await this.userUseCase.getUserByEmail(email);
+            if (IsEmailVerified?.verified) return res.status(400).json({ error: 'Email already verified' });
             if (!email) {
                 return res.status(400).json({ error: 'Email is required' });
             }
@@ -24,7 +25,8 @@ class VerificationController {
     verifyCode = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { email, code } = req.body;
-
+            const IsEmailVerified = await this.userUseCase.getUserByEmail(email);
+            if (IsEmailVerified?.verified) return res.status(400).json({ error: 'Email already verified' });
             if (!email || !code) {
                 return res.status(400).json({
                     error: 'Email and verification code are required'
