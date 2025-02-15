@@ -5,7 +5,6 @@ import bcrypt from 'bcrypt';
 
 class PrismaUserRepository implements IUserRepository {
   async create(data: any): Promise<any> {
-
     const user = await prisma.user.create({ data });
     const { password, ...userWithoutPassword } = user;
     return userWithoutPassword;

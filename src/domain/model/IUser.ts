@@ -8,7 +8,6 @@ interface IUser {
   refreshToken: string | null;
   provider: AuthProvider;
   verified: Boolean;
-  code: string | null;
 }
 
 export default IUser;

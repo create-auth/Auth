@@ -13,7 +13,6 @@ class VerificationController {
             if (!email) {
                 return res.status(400).json({ error: 'Email is required' });
             }
-
             await this.validationUseCase.sendVerificationEmail(email);
 
             res.status(200).json({ message: 'Verification code sent successfully' });

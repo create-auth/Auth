@@ -20,7 +20,7 @@ class ValidationUseCase {
   private static async getRedisConnection(): Promise<Redis> {
     if (!this.redis) {
       try {
-        this.redis = new Redis(process.env.REDIS_URL!);
+        this.redis = new Redis(process.env.REDIS_URL!, {keepAlive: 10000});
         await this.redis.ping(); // Test connection
       } catch (error) {
         throw new APIError(`Redis connection failed: ${error}`, 500);
