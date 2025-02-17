@@ -16,13 +16,14 @@ model Product {
 enum AuthProvider {
   EMAIL
   GOOGLE
+  GITHUB
 }
 
 model User {
   id           String  @id @default(uuid())
   providerId   String? @unique
   name         String
-  email        String  @unique
+  email        String?  @unique
   photo        String?
   password     String?
   refreshToken String?

@@ -43,6 +43,7 @@ class UserAuthentication {
 
   logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log("Logging out user");
       const refreshToken = req.cookies['refreshToken'];
 
       if (!refreshToken) throw new APIError('No content', 204);

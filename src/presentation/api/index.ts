@@ -3,7 +3,7 @@ import AuthorizationController from './Auth/Authorization';
 import auth from './Auth';
 import verify from './Verify';
 import product from './product';
-import social from './Auth/socialProviders/Google';
+import social from './Auth/socialProviders/index';
 import UserUseCase from '../../application/UserUsecase';
 import UserRepository from '../../infrastructure/prisma/prismaRepositories/PrismaUserRepository';
 

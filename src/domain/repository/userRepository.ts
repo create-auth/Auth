@@ -10,6 +10,7 @@ interface IUserRepository {
   deleteRefreshToken(userId: string): Promise<void>;
   saveRefreshToken(userId: string, refreshToken: string): Promise<void>;
   verifyEmail(email: string): Promise<IUser | void>;
+  getByProviderId(id: string): Promise<IUser | null>;
 }
 
 export default IUserRepository;

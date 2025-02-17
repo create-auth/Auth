@@ -14,6 +14,10 @@ class PrismaUserRepository implements IUserRepository {
     const user = await prisma.user.findUnique({ where: { id } });
     return user;
   }
+  async getByProviderId(id: string): Promise<IUser | null> {
+    const user = await prisma.user.findUnique({ where: { providerId: id } });
+    return user;
+  }
   async getByEmail(email: string): Promise<IUser | null> {
     const user = await prisma.user.findUnique({ where: { email } });
     return user;

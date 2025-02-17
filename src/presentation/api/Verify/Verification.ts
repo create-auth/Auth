@@ -7,6 +7,7 @@ class VerificationController {
 
     sendCode = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log(req.body);
             const { email } = req.body;
             const IsEmailVerified = await this.userUseCase.getUserByEmail(email);
             if (IsEmailVerified?.verified) return res.status(400).json({ error: 'Email already verified' });
@@ -44,7 +45,8 @@ class VerificationController {
             res.status(200).json({
                 message: 'Code verified successfully and email is verified',
                 verified: true,
-                accessToken
+                accessToken,
+                user
             });
         } catch (error: any) {
             next(error);
