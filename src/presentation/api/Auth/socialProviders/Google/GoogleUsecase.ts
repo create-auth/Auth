@@ -57,7 +57,8 @@ class GoogleUseCase {
       const { accessToken, refreshToken } = JWTService.generateTokens(user.id);
       this.userUsecase.saveRefreshToken(user.id, refreshToken);
       JWTService.setTokenCookies(res, accessToken, refreshToken);
-      res.status(200).redirect(`${process.env.REDIRECT_URL_ON_SUCCESS!}google/callback?token=${accessToken}&user=${JSON.stringify(user)}`);
+      const { refreshToken: userRefreshToken, password, ...userWithoutRefreshToken } = user;
+      res.status(200).json({userWithoutRefreshToken, accessToken})/* .redirect(`${process.env.REDIRECT_URL_ON_SUCCESS!}google/callback?token=${accessToken}&user=${JSON.stringify(userWithoutRefreshToken)}`); */
     } catch (error: any) {
       next(error);
     }

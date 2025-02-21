@@ -9,41 +9,41 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-class GitHubUseCase {
+class FaceBookUseCase {
   constructor(private readonly userRepository: UserRepository, private readonly userUsecase: UserUseCase) { }
-  GitHubSignIn = async (profile: any) => {
-    const { id, displayName, photos, username } = profile;
+  FaceBookSignIn = async (profile: any) => {
+    const { id, displayName, photos } = profile;
     const photo = photos[0].value;
     let user = await this.userRepository.getByProviderId(id);
 
-    if (user && user?.provider !== AuthProvider.GITHUB) throw new APIError(`this Email is Already Provided by ${user?.provider}`, 400);
+    if (user && user?.provider !== AuthProvider.FACEBOOK) throw new APIError(`this Email is Already Provided by ${user?.provider}`, 400);
     if (!user) {
       user = await this.userRepository.create({
         providerId: id,
         name: displayName,
-        email: username,
+        email: displayName,
         photo,
         password: null,
         refreshToken: null,
-        provider: AuthProvider.GITHUB,
+        provider: AuthProvider.FACEBOOK,
         verified: true,
       });
     }
     return user;
   };
-  GitHubCallBack = async (req: Request, res: Response, next: NextFunction) => {
+  FaceBookCallBack = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log(req.user)      
       if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
       const user = req.user as IUser;
       const { accessToken, refreshToken } = JWTService.generateTokens(user.id);
       this.userUsecase.saveRefreshToken(user.id, refreshToken);
       JWTService.setTokenCookies(res, accessToken, refreshToken);
+      console.log(user, accessToken)
       const { refreshToken: userRefreshToken, password, ...userWithoutRefreshToken } = user;
-      res.json({userWithoutRefreshToken, accessToken})/* .redirect(`${process.env.REDIRECT_URL_ON_SUCCESS}/github/callback?token=${accessToken}&user=${JSON.stringify(userWithoutRefreshToken)}`); */
+      res.status(200).json({userWithoutRefreshToken, accessToken})/* .redirect(`${process.env.REDIRECT_URL_ON_SUCCESS}facebook/callback?token=${accessToken}&user=${JSON.stringify(userWithoutRefreshToken)}`); */
     } catch (error: any) {
       next(error);
     }
   }
 }
-export default GitHubUseCase;
+export default FaceBookUseCase;
