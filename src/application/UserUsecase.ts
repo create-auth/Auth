@@ -5,6 +5,7 @@ import APIError from './Errors/APIError';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
+
 class UserUseCase {
   constructor(private readonly userRepository: UserRepository) { }
 
@@ -38,7 +39,7 @@ class UserUseCase {
     if (!isUserExist.password) throw new APIError('Invalid password', 401);
     const isPasswordValid = await bcrypt.compare(password, isUserExist.password);
     if (!isPasswordValid) throw new APIError('Invalid password', 401);
-    const { password: _, ...userWithoutPassword } = isUserExist;
+    const { password: pass, refreshToken: refresh, ...userWithoutPassword } = isUserExist;
     return userWithoutPassword;
   }
 
@@ -98,8 +99,6 @@ class UserUseCase {
   }
 
   async saveRefreshToken(userId: string, refreshToken: string): Promise<void> {
-    const salt = await bcrypt.genSalt(10);
-    refreshToken = await bcrypt.hash(refreshToken, salt);
     await this.userRepository.saveRefreshToken(userId, refreshToken);
   }
   async invalidateRefreshToken(refreshToken: string): Promise<void> {
@@ -107,7 +106,7 @@ class UserUseCase {
 
     await this.userRepository.deleteRefreshToken(decoded.id);
   }
-  async verifyEmail(email: string): Promise<IUser |void> {
+  async verifyEmail(email: string): Promise<IUser | void> {
     if (!email) throw new APIError('Email is required.', 400);
     if (!validator.isEmail(email)) throw new APIError('This is not an email.', 400);
     const user = await this.userRepository.verifyEmail(email);

@@ -1,7 +1,7 @@
 {
   "name": "auth",
   "version": "1.0.0",
-  "description": "A basic starter for an express.js API with Typescript",
+  "description": "A basic starter for Authentication with Typescript",
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
@@ -23,6 +23,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.1",
+    "inquirer": "^12.4.2",
     "ioredis": "^5.5.0",
     "nodemailer": "^6.10.0",
     "passport": "^0.7.0",
@@ -32,6 +33,7 @@
     "uuid": "^11.0.5"
   },
   "devDependencies": {
+    "@inquirer/prompts": "^7.3.2",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
@@ -45,8 +47,8 @@
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/uuid": "^10.0.0",
     "@types/validator": "^13.12.2",
-    "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "bcrypt": "^5.1.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
@@ -56,7 +58,7 @@
     "nodemon": "^3.1.4",
     "prisma": "^6.3.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3",
+    "typescript": "^5.7.3",
     "validator": "^13.12.0"
   }
 }

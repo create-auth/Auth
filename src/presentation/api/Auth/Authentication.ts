@@ -9,9 +9,6 @@ class UserAuthentication {
     try {
       const user = req.body;
       const newUser = await this.userUseCase.createUser(user);
-      // const { accessToken, refreshToken } = JWTUsecase.generateTokens(newUser.id);
-      // this.userUseCase.saveRefreshToken(newUser.id, refreshToken);
-      // JWTUsecase.setTokenCookies(res, accessToken, refreshToken);
       res.status(201).json({ user: newUser });
     } catch (error: any) {
       next(error);
@@ -43,7 +40,6 @@ class UserAuthentication {
 
   logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log("Logging out user");
       const refreshToken = req.cookies['refreshToken'];
 
       if (!refreshToken) throw new APIError('No content', 204);

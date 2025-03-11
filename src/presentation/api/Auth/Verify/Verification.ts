@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import ValidationUseCase from "../../../application/validationUsecase";
-import UserUseCase from "../../../application/UserUsecase";
-import JWTUsecase from "../../../application/JWTUsecase";
+import ValidationUseCase from "../../../../application/IVerificationStorage/validationUsecase";
+import UserUseCase from "../../../../application/UserUsecase";
+import JWTUsecase from "../../../../application/JWTUsecase";
 class VerificationController {
     constructor(private readonly userUseCase: UserUseCase, private readonly validationUseCase: ValidationUseCase) { }
 

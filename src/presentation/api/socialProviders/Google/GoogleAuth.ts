@@ -2,14 +2,12 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
 import GoogleUseCase from './GoogleUsecase';
-import UserRepository from "../../../../../infrastructure/prisma/prismaRepositories/PrismaUserRepository";
-import UserUseCase from '../../../../../application/UserUsecase';
+import UserRepository from "../../../../infrastructure/prisma/prismaRepositories/PrismaUserRepository";
 
 dotenv.config();
 
 const userRepository = new UserRepository();
-const userUsecase = new UserUseCase(userRepository);
-const googleUseCase = new GoogleUseCase(userRepository, userUsecase);
+const googleUseCase = new GoogleUseCase(userRepository);
 
 passport.use(
   new GoogleStrategy(

@@ -39,6 +39,8 @@ class PrismaUserRepository implements IUserRepository {
     return isMatch ? user : null;
   }
   async saveRefreshToken(userId: string, refreshToken: string): Promise<void> {
+    const salt = await bcrypt.genSalt(10);
+    refreshToken = await bcrypt.hash(refreshToken, salt);
     await prisma.user.update({ where: { id: userId }, data: { refreshToken } });
   }
   async deleteRefreshToken(userId: string): Promise<void> {
@@ -50,11 +52,6 @@ class PrismaUserRepository implements IUserRepository {
     if (!user) return;
     return user;
   }
-
-  /*   async list(): Promise<IUser[]> {
-      const user = await prisma.user.findMany();
-      return user;
-    } */
 }
 
 export default PrismaUserRepository;

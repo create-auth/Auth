@@ -1,5 +1,3 @@
-
-
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import APIError from '../../../application/Errors/APIError';

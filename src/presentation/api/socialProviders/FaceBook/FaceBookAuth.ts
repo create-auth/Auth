@@ -1,15 +1,13 @@
 import passport from 'passport';
 import { Strategy as  FacebookStrategy} from 'passport-facebook';
-import UserRepository from '../../../../../infrastructure/prisma/prismaRepositories/PrismaUserRepository';
-import UserUseCase from '../../../../../application/UserUsecase';
+import UserRepository from '../../../../infrastructure/prisma/prismaRepositories/PrismaUserRepository';
 import FaceBookUseCase from './FaceBookUsecase';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const userRepository = new UserRepository();
-const userUsecase = new UserUseCase(userRepository);
-const faceBookUseCase = new FaceBookUseCase(userRepository, userUsecase);
+const faceBookUseCase = new FaceBookUseCase(userRepository);
 
 passport.use(
     new FacebookStrategy(

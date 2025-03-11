@@ -1,15 +1,13 @@
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
-import UserRepository from '../../../../../infrastructure/prisma/prismaRepositories/PrismaUserRepository';
-import UserUseCase from '../../../../../application/UserUsecase';
+import UserRepository from '../../../../infrastructure/prisma/prismaRepositories/PrismaUserRepository';
 import GitHubUseCase from './GitHubUsecase';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const userRepository = new UserRepository();
-const userUsecase = new UserUseCase(userRepository);
-const gitHubUseCase = new GitHubUseCase(userRepository, userUsecase);
+const gitHubUseCase = new GitHubUseCase(userRepository);
 
 passport.use(
     new GitHubStrategy(
